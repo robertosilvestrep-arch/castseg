@@ -184,7 +184,7 @@
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold mb-1 text-slate-600">Adicionar Componente</label>
-                            <select id="orc-produto-select" onchange="adicionarProdutoAoOrcamento()" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"><option value="">Escolha um produto...</option></select>
+                            <select id="orc-produto-select" onchange="adicionarProdutoAoOrcamento()" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"><option value="">Escolha um product...</option></select>
                         </div>
                     </div>
                     <div class="mt-6 space-y-2">
@@ -362,7 +362,7 @@
         }
 
         function removerProduto(id) {
-            estoque = !estoque ? [] : estoque.filter(p => p.id !== id);
+            estoque = estoque.filter(p => p.id !== id);
             localStorage.setItem('cs_stock', JSON.stringify(estoque));
             renderEstoque();
             atualizarSelectsOrcamento();
