@@ -39,12 +39,12 @@
         </div>
 
         <nav class="flex items-center gap-1">
-            <button onclick="mudarModulo('kanban')" id="btn-kanban" class="px-3 py-2 rounded-lg font-medium text-xs text-white bg-slate-900 flex items-center gap-1.5 transition">
+            <button onclick="mudarModulo('kanban')" id="btn-kanban" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-white bg-slate-900 flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-table-columns text-blue-400"></i> Funil de Leads
             </button>
 
             <div class="relative dropdown">
-                <button id="btn-clientes" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button id="btn-clientes" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-user-plus text-green-400"></i> Cadastro <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -55,7 +55,7 @@
             </div>
 
             <div class="relative dropdown">
-                <button id="btn-estoque" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button id="btn-estoque" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-boxes-stacked text-amber-400"></i> Estoque <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -66,7 +66,7 @@
             </div>
 
             <div class="relative dropdown">
-                <button id="btn-agenda" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button id="btn-agenda" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-calendar-check text-red-400"></i> Agenda <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -77,7 +77,7 @@
             </div>
 
             <div class="relative dropdown">
-                <button id="btn-jucesp" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button id="btn-jucesp" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-magnifying-glass-chart text-cyan-400"></i> Jucesp <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <button onclick="mudarModulo('orcamentos')" id="btn-orcamentos" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+            <button onclick="mudarModulo('orcamentos')" id="btn-orcamentos" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-file-invoice-dollar text-purple-400"></i> Orçamentos
             </button>
         </nav>
@@ -472,11 +472,11 @@
 
         function atualizarSelectsOrcamento() {
             let clientOps = '<option value="">Escolha o cliente...</option>';
-            clientes.forEach((c, idx) => { clientOps += `<option value="${idx}">${c.nome}</option>'; });
+            clientes.forEach((c, idx) => { clientOps += `<option value="${idx}">${c.nome}</option>`; });
             document.getElementById('orc-cliente-select').innerHTML = clientOps;
 
             let prodOps = '<option value="">Adicionar item técnico...</option>';
-            estoque.forEach((p, idx) => { prodOps += `<option value="${idx}">${p.nome} - R$ ${p.preco.toFixed(2)}</option>'; });
+            estoque.forEach((p, idx) => { prodOps += `<option value="${idx}">${p.nome} - R$ ${p.preco.toFixed(2)}</option>`; });
             document.getElementById('orc-produto-select').innerHTML = prodOps;
         }
 
@@ -520,6 +520,17 @@
         function mudarModulo(modulo) {
             document.querySelectorAll('.modulo-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`mod-${modulo}`).classList.remove('hidden');
+            
+            // Seleciona todos os botões que possuem a classe .menu-btn e reseta o estilo padrão deles
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.className = "menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition";
+            });
+            
+            // Aplica a classe de ativo apenas no botão clicado para dar feedback visual
+            const botaoAtivo = document.getElementById(`btn-${modulo}`);
+            if (botaoAtivo) {
+                botaoAtivo.className = "menu-btn px-3 py-2 rounded-lg font-medium text-xs text-white bg-slate-900 flex items-center gap-1.5 transition";
+            }
             
             const titulos = {
                 kanban: "Funil de Captação (Leads)",
