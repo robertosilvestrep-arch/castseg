@@ -10,10 +10,6 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
-        /* Dropdown seguro via CSS Puro */
-        .dropdown:hover .dropdown-menu { display: block; }
-        
-        /* Comportamento de Impressão */
         @media print {
             body * { visibility: hidden; }
             #area-impressao-orcamento, #area-impressao-orcamento * { visibility: visible; }
@@ -22,12 +18,12 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 font-sans flex flex-col h-screen overflow-hidden text-gray-800">
+<body class="bg-slate-50 font-sans flex flex-col h-screen overflow-hidden text-slate-800">
 
-    <header class="bg-slate-950 text-white p-4 px-8 flex justify-between items-center shadow-md z-50 no-print">
+    <header class="bg-slate-900 text-white p-4 px-6 flex flex-wrap justify-between items-center shadow-lg z-50 no-print">
         
-        <div class="flex items-center gap-4">
-            <div class="bg-white p-2 rounded shadow flex items-center justify-center h-10 w-32">
+        <div class="flex items-center gap-3">
+            <div class="bg-white p-1 rounded shadow flex items-center justify-center h-10 w-32">
                 <svg viewBox="0 0 300 70" class="h-8 w-full">
                     <text x="10" y="50" font-family="'Arial Black', Gadget, sans-serif" font-size="44" font-style="italic" font-weight="900" fill="#003366">CAST</text>
                     <text x="145" y="50" font-family="'Arial', Helvetica, sans-serif" font-size="44" font-style="italic" font-weight="500" fill="#003366">SEG</text>
@@ -35,69 +31,36 @@
                     <polygon points="55,52 64,30 73,52" fill="#FFFFFF" />
                 </svg>
             </div>
-            <div class="hidden sm:block border-l border-slate-800 pl-3">
-                <div class="text-[10px] uppercase font-bold tracking-widest text-blue-400">Distribuidora</div>
+            <div class="hidden md:block border-l border-slate-700 pl-3">
+                <div class="text-[10px] uppercase font-bold tracking-widest text-orange-500">Distribuidora</div>
                 <div class="text-[9px] text-slate-400">Santos / SP</div>
             </div>
         </div>
 
-        <nav class="flex items-center gap-2">
-            <button onclick="mudarModulo('kanban')" class="px-3 py-2 rounded-lg font-medium text-xs text-white hover:bg-slate-800 flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-table-columns text-blue-400"></i> Funil de Leads
+        <nav class="flex flex-wrap items-center gap-1 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <button onclick="mudarModulo('kanban')" id="btn-nav-kanban" class="px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 bg-blue-900 text-white">
+                <i class="fa-solid fa-table-columns"></i> Funil de Leads
             </button>
-
-            <div class="relative dropdown">
-                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-user-plus text-green-400"></i> Clientes <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                </button>
-                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
-                    <button onclick="mudarModulo('clientes')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
-                        <i class="fa-solid fa-address-book text-green-600"></i> Gerenciar Clientes
-                    </button>
-                </div>
-            </div>
-
-            <div class="relative dropdown">
-                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-boxes-stacked text-amber-400"></i> Estoque <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                </button>
-                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
-                    <button onclick="mudarModulo('estoque')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
-                        <i class="fa-solid fa-box text-amber-600"></i> Tabela de Preços
-                    </button>
-                </div>
-            </div>
-
-            <div class="relative dropdown">
-                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-calendar-check text-red-400"></i> Agenda <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                </button>
-                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
-                    <button onclick="mudarModulo('agenda')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
-                        <i class="fa-brands fa-google text-red-600"></i> Google Calendar
-                    </button>
-                </div>
-            </div>
-
-            <div class="relative dropdown">
-                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-magnifying-glass-chart text-cyan-400"></i> Jucesp <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                </button>
-                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
-                    <button onclick="mudarModulo('jucesp')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
-                        <i class="fa-solid fa-passport text-cyan-600"></i> Radar de Empresas
-                    </button>
-                </div>
-            </div>
-
-            <button onclick="mudarModulo('orcamentos')" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-file-invoice-dollar text-purple-400"></i> Orçamentos
+            <button onclick="mudarModulo('clientes')" id="btn-nav-clientes" class="px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-address-book"></i> Clientes (CPF/CNPJ)
+            </button>
+            <button onclick="mudarModulo('estoque')" id="btn-nav-estoque" class="px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-boxes-stacked"></i> Estoque / Materiais
+            </button>
+            <button onclick="mudarModulo('agenda')" id="btn-nav-agenda" class="px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-calendar-check"></i> Google Agenda
+            </button>
+            <button onclick="mudarModulo('jucesp')" id="btn-nav-jucesp" class="px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-magnifying-glass-chart"></i> Radar Jucesp
+            </button>
+            <button onclick="mudarModulo('orcamentos')" id="btn-nav-orcamentos" class="px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-file-invoice-dollar"></i> Orçamentos
             </button>
         </nav>
     </header>
 
     <div class="bg-white border-b shadow-sm p-4 px-8 flex justify-between items-center no-print">
-        <h2 id="titulo-modulo" class="text-sm font-bold text-slate-800">Funil de Captação (Leads)</h2>
+        <h2 id="titulo-modulo" class="text-sm font-bold text-slate-700 uppercase tracking-wider">Funil de Captação (Leads)</h2>
         <div id="botoes-acao">
             <button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-1.5 px-4 rounded shadow text-xs transition flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i> Novo Lead
@@ -105,7 +68,7 @@
         </div>
     </div>
 
-    <main class="flex-1 overflow-y-auto p-8">
+    <main class="flex-1 overflow-y-auto p-6">
         
         <section id="mod-kanban" class="modulo-content">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -131,7 +94,7 @@
         <section id="mod-clientes" class="modulo-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
-                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Homologar Novo Cliente</h3>
+                    <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Homologar Novo Cliente</h3>
                     <form onsubmit="salvarNovoCliente(event)" id="formCliente" class="space-y-3">
                         <div>
                             <label class="block text-[11px] font-bold mb-1 text-slate-600">Tipo de Inscrição</label>
@@ -160,14 +123,14 @@
                             <input type="email" id="c-email" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Endereço de Entrega/Instalação</label>
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Endereço de Entrega</label>
                             <input type="text" id="c-endereco" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none">
                         </div>
                         <button type="submit" class="w-full bg-green-600 text-white py-2 rounded font-bold text-xs hover:bg-green-700 transition">Salvar Cadastro</button>
                     </form>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 overflow-x-auto">
-                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Base de Parceiros Ativos</h3>
+                    <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Base de Clientes Homologados</h3>
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 font-bold border-b"><th class="p-3">Nome / Empresa</th><th class="p-3">Identificação</th><th class="p-3">Contato</th><th class="p-3">Ações</th></tr>
@@ -181,7 +144,7 @@
         <section id="mod-estoque" class="modulo-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
-                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Novo Equipamento</h3>
+                    <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Novo Equipamento</h3>
                     <form onsubmit="salvarNovoProduto(event)" id="formEstoque" class="space-y-3">
                         <div>
                             <label class="block text-[11px] font-bold mb-1 text-slate-600">Código de Fábrica (SKU)</label>
@@ -199,7 +162,7 @@
                     </form>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 overflow-x-auto">
-                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Equipamentos Disponíveis</h3>
+                    <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Equipamentos em Catálogo</h3>
                     <table class="w-full text-left text-xs">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 font-bold border-b"><th class="p-3">Código</th><th class="p-3">Descrição do Material</th><th class="p-3">Preço Unitário</th><th class="p-3">Ação</th></tr>
@@ -213,7 +176,7 @@
         <section id="mod-orcamentos" class="modulo-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1 no-print">
-                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Montar Proposta</h3>
+                    <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Montar Proposta</h3>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-[11px] font-bold mb-1 text-slate-600">Selecionar Destinatário</label>
@@ -269,11 +232,11 @@
 
         <section id="mod-agenda" class="modulo-content hidden">
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 max-w-xl">
-                <h3 class="font-bold text-sm text-slate-800 mb-2 uppercase tracking-wider"><i class="fa-brands fa-google text-red-500 mr-2"></i>Google Calendar Linkage</h3>
+                <h3 class="font-bold text-xs text-slate-800 mb-2 uppercase tracking-wider"><i class="fa-brands fa-google text-red-500 mr-2"></i>Google Calendar Linkage</h3>
                 <p class="text-xs text-gray-500 mb-4">Sincronize as demonstrações de sistemas e visitas técnicas diretamente no calendário corporativo.</p>
                 <div class="space-y-2">
                     <button onclick="authGoogle()" class="bg-red-600 text-white text-xs font-bold py-2 px-4 rounded shadow hover:bg-red-700 transition">Sincronizar Conta Google</button>
-                    <div id="status-google" class="text-[11px] text-gray-500 italic mt-2">Status: Pronto para escuta (Verifique o redirecionamento seguro da URL do GitHub Pages).</div>
+                    <div id="status-google" class="text-[11px] text-gray-500 italic mt-2">Status: Pronto para conexão.</div>
                 </div>
             </div>
         </section>
@@ -281,7 +244,7 @@
         <section id="mod-jucesp" class="modulo-content hidden">
             <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm max-w-xl flex flex-col justify-between">
                 <div>
-                    <h3 class="font-bold text-sm text-orange-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-magnifying-glass-chart mr-2"></i>Mapeamento Técnico de Mercado (Jucesp)</h3>
+                    <h3 class="font-bold text-xs text-orange-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-magnifying-glass-chart mr-2"></i>Mapeamento Técnico de Mercado (Jucesp)</h3>
                     <p class="text-xs text-slate-300 leading-relaxed">Monitore preventivamente a constituição de novos condomínios comerciais e residenciais na Baixada Santista para oferta de infraestrutura de CFTV e controle de acesso.</p>
                 </div>
                 <a href="https://www.jucesponline.sp.gov.br/" target="_blank" class="block w-full bg-blue-600 text-center py-2 rounded font-bold text-xs hover:bg-blue-700 transition mt-6">Acessar Painel Oficial JUCESP <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i></a>
@@ -364,7 +327,7 @@
         function initGoogleAuth() {
             if(window.location.protocol === 'file:') return;
             tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: 'SEU_CLIENT_ID_AQUI.apps.googleusercontent.com',
+                client_id: '730601820523-g6gr1bh451f7u81fqnmtdiib6o6181a.apps.googleusercontent.com',
                 scope: 'https://www.googleapis.com/auth/calendar.events',
                 callback: (tokenResponse) => {
                     if (tokenResponse.access_token) {
@@ -520,15 +483,19 @@
             window.location.href = `mailto:${c.email}?subject=Proposta%20Comercial%20-%20Castseg%20Santos&body=${encodeURIComponent(corpo)}`;
         }
 
-        // ALTERNADOR DE MÓDULOS SEGURO (Sem re-estilização via DOM móvel)
         function mudarModulo(modulo) {
-            // Oculta todas as telas
             document.querySelectorAll('.modulo-content').forEach(el => el.classList.add('hidden'));
-            
-            // Exibe apenas a tela selecionada
             document.getElementById(`mod-${modulo}`).classList.remove('hidden');
             
-            // Altera o título do cabeçalho
+            document.querySelectorAll('header nav button').forEach(btn => {
+                btn.className = "px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white";
+            });
+            
+            const btnAtivo = document.getElementById(`btn-nav-${modulo}`);
+            if(btnAtivo) {
+                btnAtivo.className = "px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 bg-blue-900 text-white";
+            }
+            
             const titulos = {
                 kanban: "Funil de Captação (Leads)",
                 clientes: "Cadastro e Consulta de Clientes (CPF/CNPJ)",
@@ -539,7 +506,6 @@
             };
             document.getElementById('titulo-modulo').innerText = titulos[modulo];
             
-            // Modifica o botão de ação rápida no sub-header
             const containerBotoes = document.getElementById('botoes-acao');
             if(modulo === 'kanban') {
                 containerBotoes.innerHTML = `<button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-1.5 px-4 rounded shadow text-xs transition flex items-center gap-2"><i class="fa-solid fa-plus"></i> Novo Lead</button>`;
@@ -548,7 +514,6 @@
             }
         }
 
-        // Execução ao carregar a página
         document.getElementById('orc-data-atual').innerText = new Date().toLocaleDateString('pt-BR');
         window.onload = () => { 
             renderKanban(); 
