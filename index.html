@@ -6,10 +6,13 @@
     <title>SGE/CRM Premium - Castseg Distribuidora Santos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://apis.google.com/js/api.js" async defer></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
     
     <style>
+        .modulo-content { display: none !important; }
+        .modulo-content.ativo { display: block !important; }
+
         @media print {
             body * { visibility: hidden; }
             #area-impressao-orcamento, #area-impressao-orcamento * { visibility: visible; }
@@ -70,7 +73,7 @@
 
     <main class="flex-1 overflow-y-auto p-6">
         
-        <section id="mod-kanban" class="modulo-content">
+        <section id="mod-kanban" class="modulo-content ativo">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="bg-slate-200/60 p-4 rounded-xl border border-slate-300">
                     <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-blue-500 pb-2 text-xs uppercase tracking-wider">Novo <span id="count-novo" class="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span></h3>
@@ -91,7 +94,7 @@
             </div>
         </section>
 
-        <section id="mod-clientes" class="modulo-content hidden">
+        <section id="mod-clientes" class="modulo-content">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
                     <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Homologar Novo Cliente</h3>
@@ -141,7 +144,7 @@
             </div>
         </section>
 
-        <section id="mod-estoque" class="modulo-content hidden">
+        <section id="mod-estoque" class="modulo-content">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
                     <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Novo Equipamento</h3>
@@ -173,7 +176,7 @@
             </div>
         </section>
 
-        <section id="mod-orcamentos" class="modulo-content hidden">
+        <section id="mod-orcamentos" class="modulo-content">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1 no-print">
                     <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Montar Proposta</h3>
@@ -230,18 +233,50 @@
             </div>
         </section>
 
-        <section id="mod-agenda" class="modulo-content hidden">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 max-w-xl">
-                <h3 class="font-bold text-xs text-slate-800 mb-2 uppercase tracking-wider"><i class="fa-brands fa-google text-red-500 mr-2"></i>Google Calendar Linkage</h3>
-                <p class="text-xs text-gray-500 mb-4">Sincronize as demonstrações de sistemas e visitas técnicas diretamente no calendário corporativo.</p>
-                <div class="space-y-2">
-                    <button onclick="authGoogle()" class="bg-red-600 text-white text-xs font-bold py-2 px-4 rounded shadow hover:bg-red-700 transition">Sincronizar Conta Google</button>
-                    <div id="status-google" class="text-[11px] text-gray-500 italic mt-2">Status: Pronto para conexão.</div>
+        <section id="mod-agenda" class="modulo-content">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
+                    <h3 class="font-bold text-xs mb-2 uppercase tracking-wider text-slate-800 border-b pb-2"><i class="fa-brands fa-google text-red-500 mr-2"></i>Controle Google Calendar</h3>
+                    <div class="space-y-4">
+                        <button onclick="authGoogle()" class="w-full bg-red-600 text-white text-xs font-bold py-2 px-4 rounded shadow hover:bg-red-700 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-sync"></i> Sincronizar Conta Google
+                        </button>
+                        <div id="status-google" class="text-[11px] text-gray-500 italic">Status: Aguardando sincronização de token corporativo.</div>
+                    </div>
+
+                    <form onsubmit="criarCompromissoGoogle(event)" id="formAgenda" class="space-y-3 mt-6 pt-4 border-t hidden">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Novo Compromisso Técnico</h4>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Título do Evento</label>
+                            <input type="text" id="ag-titulo" placeholder="Ex: Visita Técnica - Condomínio Mar" required class="w-full border p-2 rounded text-xs outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Data e Hora de Início</label>
+                            <input type="datetime-local" id="ag-inicio" required class="w-full border p-2 rounded text-xs outline-none">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-900 text-white font-bold py-2 rounded text-xs hover:bg-blue-800 transition">Agendar no Google</button>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 overflow-x-auto">
+                    <h3 class="font-bold text-xs mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Próximos Compromissos Sincronizados</h3>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-bold border-b">
+                                <th class="p-3">Compromisso / Descrição</th>
+                                <th class="p-3">Data / Hora de Início</th>
+                                <th class="p-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-agenda-corpo">
+                            <tr><td colspan="3" class="p-4 text-center text-gray-400 italic">Efetue a sincronização para puxar os dados da sua agenda corporativa.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
-        <section id="mod-jucesp" class="modulo-content hidden">
+        <section id="mod-jucesp" class="modulo-content">
             <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm max-w-xl flex flex-col justify-between">
                 <div>
                     <h3 class="font-bold text-xs text-orange-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-magnifying-glass-chart mr-2"></i>Mapeamento Técnico de Mercado (Jucesp)</h3>
@@ -279,6 +314,7 @@
         ];
         let itensOrcamentoCorrente = [];
         let tokenClient;
+        let accessTokenGlobal = null;
 
         function ajustarTipoDocumento() {
             const tipo = document.getElementById('c-tipo-doc').value;
@@ -324,27 +360,109 @@
             document.getElementById('c-endereco').value = `${data.logradouro}, ${data.numero} - ${data.municipio}/${data.uf}`;
         }
 
+        // GOOGLE CALENDAR CONTROLLER E DISPARO DE DADOS
         function initGoogleAuth() {
             if(window.location.protocol === 'file:') return;
+            gapi.load('client', async () => {
+                await gapi.client.init({
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+                });
+            });
+
             tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: '730601820523-g6gr1bh451f7u81fqnmbtdiib6o6181a.apps.googleusercontent.com',
                 scope: 'https://www.googleapis.com/auth/calendar.events',
-                callback: (tokenResponse) => {
-                    if (tokenResponse.access_token) {
-                        document.getElementById('status-google').innerText = "Status: Autenticado com o Google Agenda!";
-                        document.getElementById('status-google').className = "text-xs text-green-600 font-bold mt-2";
+                callback: async (resp) => {
+                    if (resp.error) {
+                        alert("Erro de autenticação com o Google.");
+                        return;
                     }
+                    accessTokenGlobal = resp.access_token;
+                    gapi.client.setToken({access_token: accessTokenGlobal});
+                    
+                    document.getElementById('status-google').innerText = "Status: Conectado com sucesso!";
+                    document.getElementById('status-google').className = "text-xs text-green-600 font-bold";
+                    document.getElementById('formAgenda').classList.remove('hidden');
+                    
+                    // Dispara a busca automática dos compromissos cadastrados
+                    listarCompromissosGoogle();
                 },
             });
         }
 
         function authGoogle() {
             if(window.location.protocol === 'file:') {
-                alert("Erro de Protocolo: O Google rejeita autenticação local. Utilize o endereço público do seu repositório GitHub Pages para habilitar o login.");
+                alert("Erro de Protocolo: Acesse pelo link público do seu GitHub Pages para habilitar o login.");
                 return;
             }
             if (!tokenClient) initGoogleAuth();
             tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+
+        // BUSCA OS COMPROMISSOS REAIS DA SUA CONTA LOGADA VIA API
+        async function listarCompromissosGoogle() {
+            try {
+                const response = await gapi.client.calendar.events.list({
+                    'calendarId': 'primary',
+                    'timeMin': (new Date()).toISOString(),
+                    'showDeleted': false,
+                    'singleEvents': true,
+                    'maxResults': 10,
+                    'orderBy': 'startTime'
+                });
+
+                const events = response.result.items;
+                let html = '';
+
+                if (!events || events.length === 0) {
+                    html = '<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">Nenhum próximo evento localizado na sua agenda.</td></tr>';
+                } else {
+                    events.forEach(event => {
+                        const inicio = event.start.dateTime || event.start.date;
+                        const dataFormatada = new Date(inicio).toLocaleString('pt-BR');
+                        html += `<tr class="border-b bg-white hover:bg-slate-50">
+                            <td class="p-3 font-semibold text-slate-800">${event.summary}</td>
+                            <td class="p-3 font-mono text-slate-600">${dataFormatada}</td>
+                            <td class="p-3"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${event.status}</span></td>
+                        </tr>`;
+                    });
+                }
+                document.getElementById('tabela-agenda-corpo').innerHTML = html;
+            } catch (err) {
+                console.error(err);
+                document.getElementById('tabela-agenda-corpo').innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-500 italic">Erro ao sincronizar compromissos. Recarregue a página.</td></tr>';
+            }
+        }
+
+        // CRIA COMPROMISSO DIRETO DA INTERFACE DO SGE PARA A NUVEM DO GOOGLE
+        async function criarCompromissoGoogle(event) {
+            event.preventDefault();
+            if (!accessTokenGlobal) return alert("Por favor, conecte sua conta Google primeiro.");
+
+            const titulo = document.getElementById('ag-titulo').value;
+            const dataInicio = document.getElementById('ag-inicio').value;
+            
+            const dataFimObj = new Date(dataInicio);
+            dataFimObj.setHours(dataFimObj.getHours() + 1); // Define duração padrão de 1 hora
+
+            const evento = {
+                'summary': titulo,
+                'start': { 'dateTime': new Date(dataInicio).toISOString(), 'timeZone': 'America/Sao_Paulo' },
+                'end': { 'dateTime': dataFimObj.toISOString(), 'timeZone': 'America/Sao_Paulo' }
+            };
+
+            try {
+                await gapi.client.calendar.events.insert({
+                    'calendarId': 'primary',
+                    'resource': evento
+                });
+                alert("Compromisso agendado com sucesso no seu Google Calendar!");
+                document.getElementById('formAgenda').reset();
+                listarCompromissosGoogle(); // Atualiza a tabela
+            } catch (err) {
+                console.error(err);
+                alert("Falha ao criar evento na agenda do Google.");
+            }
         }
 
         function salvarNovoProduto(event) {
@@ -484,8 +602,8 @@
         }
 
         function mudarModulo(modulo) {
-            document.querySelectorAll('.modulo-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`mod-${modulo}`).classList.remove('hidden');
+            document.querySelectorAll('.modulo-content').forEach(el => el.classList.remove('ativo'));
+            document.getElementById(`mod-${modulo}`).classList.add('ativo');
             
             document.querySelectorAll('header nav button').forEach(btn => {
                 btn.className = "px-4 py-2 rounded-lg font-semibold text-xs transition flex items-center gap-2 text-slate-400 hover:text-white";
@@ -501,7 +619,7 @@
                 clientes: "Cadastro e Consulta de Clientes (CPF/CNPJ)",
                 estoque: "Gerenciamento de Catálogo & Estoque Atacado",
                 orcamentos: "Impressão de Orçamentos e Disparos Comerciais",
-                agenda: "Google Calendar API Connection",
+                agenda: "Google Agenda - Compromissos Integrados",
                 jucesp: "Radar JUCESP - Prospecção Ativa na Baixada"
             };
             document.getElementById('titulo-modulo').innerText = titulos[modulo];
@@ -520,7 +638,7 @@
             renderClientes(); 
             renderEstoque(); 
             atualizarSelectsOrcamento(); 
-            if (typeof google !== 'undefined') initGoogleAuth(); 
+            initGoogleAuth(); 
         };
     </script>
 </body>
