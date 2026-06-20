@@ -184,7 +184,7 @@
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold mb-1 text-slate-600">Adicionar Componente</label>
-                            <select id="orc-produto-select" onchange="adicionarProdutoAoOrcamento()" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"><option value="">Escolha um product...</option></select>
+                            <select id="orc-produto-select" onchange="adicionarProdutoAoOrcamento()" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"><option value="">Escolha um produto...</option></select>
                         </div>
                     </div>
                     <div class="mt-6 space-y-2">
@@ -327,7 +327,7 @@
         function initGoogleAuth() {
             if(window.location.protocol === 'file:') return;
             tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: '730601820523-g6gr1bh451f7u81fqnmtdiib6o6181a.apps.googleusercontent.com',
+                client_id: '730601820523-g6gr1bh451f7u81fqnmbtdiib6o6181a.apps.googleusercontent.com',
                 scope: 'https://www.googleapis.com/auth/calendar.events',
                 callback: (tokenResponse) => {
                     if (tokenResponse.access_token) {
