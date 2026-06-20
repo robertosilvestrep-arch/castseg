@@ -415,7 +415,7 @@
         function excluirLead(id) { leads = leads.filter(l => l.id !== id); atualizarLeads(); }
         function atualizarLeads() { localStorage.setItem('cs_leads', JSON.stringify(leads)); renderKanban(); }
         
-        function promoverACliente(id) {
+        function永久_promoverACliente(id) {
             const lead = leads.find(l => l.id === id);
             if(lead) {
                 clientes.push({ id: Date.now(), nome: lead.nome, documento: 'Convertido do Funil', tipo: 'LEAD', tel: lead.tel, email: lead.email });
@@ -431,7 +431,7 @@
             const counts = { novo: 0, contato: 0, proposta: 0, ganho: 0 };
             leads.forEach(l => {
                 counts[l.status]++;
-                cols[l.status] += `<div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200"><h4 class="font-bold text-xs text-slate-800">${l.nome}</h4><p class="text-[10px] text-gray-500">✉️ ${l.email}</p><p class="text-[10px] text-gray-500 mb-3">📞 ${l.tel}</p><div class="flex flex-col gap-1.5 border-t pt-2"><select onchange="moverStatus(${l.id}, this.value)" class="text-xs border p-1 rounded bg-gray-50"><option value="novo" ${l.status==='novo'?'selected':''}>Mover: Novo</option><option value="contato" ${l.status==='contato'?'selected':''}>Mover: Contato</option><option value="proposta" ${l.status==='proposta'?'selected':''}>Mover: Proposta</option><option value="ganho" ${l.status==='ganho'?'selected':''}>Mover: Fechado</option></select>${l.status==='ganho'?`<button onclick="promoverACliente(${l.id})" class="bg-green-600 text-white font-bold py-1 rounded text-[10px]">Promover a Cliente</button>`:''}<button onclick="excluirLead(${l.id})" class="text-left text-[10px] text-red-400 hover:underline">Remover</button></div></div>`;
+                cols[l.status] += `<div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200"><h4 class="font-bold text-xs text-slate-800">${l.nome}</h4><p class="text-[10px] text-gray-500">✉️ ${l.email}</p><p class="text-[10px] text-gray-500 mb-3">📞 ${l.tel}</p><div class="flex flex-col gap-1.5 border-t pt-2"><select onchange="moverStatus(${l.id}, this.value)" class="text-xs border p-1 rounded bg-gray-50"><option value="novo" ${l.status==='novo'?'selected':''}>Mover: Novo</option><option value="contato" ${l.status==='contato'?'selected':''}>Mover: Contato</option><option value="proposta" ${l.status==='proposta'?'selected':''}>Mover: Proposta</option><option value="ganho" ${l.status==='ganho'?'selected':''}>Mover: Fechado</option></select>${l.status==='ganho'?`<button onclick="永久_promoverACliente(${l.id})" class="bg-green-600 text-white font-bold py-1 rounded text-[10px]">Promover a Cliente</button>`:''}<button onclick="excluirLead(${l.id})" class="text-left text-[10px] text-red-400 hover:underline">Remover</button></div></div>`;
             });
             for(let k in cols) { document.getElementById(`col-${k}`).innerHTML = cols[k] || '<p class="text-xs text-gray-400 italic text-center py-4">Vazio</p>'; document.getElementById(`count-${k}`).innerText = counts[k]; }
         }
