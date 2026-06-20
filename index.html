@@ -10,7 +10,6 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
-        /* Estilos para dropdowns e comportamento de impressão */
         .dropdown:hover .dropdown-menu { display: block; }
         @media print {
             body * { visibility: hidden; }
@@ -25,53 +24,79 @@
     <header class="bg-slate-950 text-white p-4 px-8 flex justify-between items-center shadow-md z-50 no-print">
         
         <div class="flex items-center gap-4">
-            <div class="bg-white p-1 rounded shadow flex items-center justify-center h-10 w-28 overflow-hidden">
-                <span class="text-blue-900 font-black text-lg tracking-tighter"><i class="fa-solid fa-shield-halved text-orange-500"></i> CASTSEG</span>
+            <div class="bg-white p-2 rounded shadow flex items-center justify-center h-10 w-32 bg-no-repeat bg-center bg-contain">
+                <svg viewBox="0 0 300 70" class="h-8 w-full">
+                    <text x="10" y="50" font-family="'Arial Black', Gadget, sans-serif" font-size="44" font-style="italic" font-weight="900" fill="#003366">CAST</text>
+                    <text x="145" y="50" font-family="'Arial', Helvetica, sans-serif" font-size="44" font-style="italic" font-weight="500" fill="#003366">SEG</text>
+                    <polygon points="50,52 64,22 78,52" fill="#7F8C8D" />
+                    <polygon points="55,52 64,30 73,52" fill="#FFFFFF" />
+                </svg>
             </div>
             <div class="hidden sm:block border-l border-slate-800 pl-3">
-                <div class="text-xs uppercase font-bold tracking-widest text-orange-500">Distribuidora</div>
-                <div class="text-[10px] text-slate-400">Unidade Santos/SP</div>
+                <div class="text-[10px] uppercase font-bold tracking-widest text-blue-400">Distribuidora</div>
+                <div class="text-[9px] text-slate-400">Santos / SP</div>
             </div>
         </div>
 
-        <nav class="flex items-center gap-2">
-            <button onclick="mudarModulo('kanban')" id="btn-kanban" class="px-4 py-2 rounded-lg font-medium text-sm text-white bg-slate-900 flex items-center gap-2 transition">
+        <nav class="flex items-center gap-1">
+            <button onclick="mudarModulo('kanban')" id="btn-kanban" class="px-3 py-2 rounded-lg font-medium text-xs text-white bg-slate-900 flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-table-columns text-blue-400"></i> Funil de Leads
             </button>
 
             <div class="relative dropdown">
-                <button class="px-4 py-2 rounded-lg font-medium text-sm text-slate-300 hover:text-white flex items-center gap-2 transition">
-                    <i class="fa-solid fa-user-plus text-green-400"></i> Cadastro de Clientes <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                <button id="btn-clientes" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-user-plus text-green-400"></i> Cadastro <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
-                <div class="dropdown-menu absolute hidden right-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
-                    <button onclick="mudarModulo('clientes')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-100 flex items-center gap-2 font-medium">
-                        <i class="fa-solid fa-address-book text-green-600"></i> Clientes (CPF / CNPJ)
+                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
+                    <button onclick="mudarModulo('clientes')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
+                        <i class="fa-solid fa-address-book text-green-600"></i> Gerenciar Clientes
                     </button>
                 </div>
             </div>
 
-            <button onclick="mudarModulo('estoque')" id="btn-estoque" class="px-4 py-2 rounded-lg font-medium text-sm text-slate-300 hover:text-white flex items-center gap-2 transition">
-                <i class="fa-solid fa-boxes-stacked text-amber-400"></i> Estoque
-            </button>
+            <div class="relative dropdown">
+                <button id="btn-estoque" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-boxes-stacked text-amber-400"></i> Estoque <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                </button>
+                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
+                    <button onclick="mudarModulo('estoque')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
+                        <i class="fa-solid fa-box text-amber-600"></i> Tabela de Preços
+                    </button>
+                </div>
+            </div>
 
-            <button onclick="mudarModulo('agenda')" id="btn-agenda" class="px-4 py-2 rounded-lg font-medium text-sm text-slate-300 hover:text-white flex items-center gap-2 transition">
-                <i class="fa-solid fa-calendar-check text-red-400"></i> Agenda
-            </button>
+            <div class="relative dropdown">
+                <button id="btn-agenda" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-calendar-check text-red-400"></i> Agenda <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                </button>
+                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
+                    <button onclick="mudarModulo('agenda')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
+                        <i class="fa-brands fa-google text-red-600"></i> Google Calendar
+                    </button>
+                </div>
+            </div>
 
-            <button onclick="mudarModulo('jucesp')" id="btn-jucesp" class="px-4 py-2 rounded-lg font-medium text-sm text-slate-300 hover:text-white flex items-center gap-2 transition">
-                <i class="fa-solid fa-magnifying-glass-chart text-cyan-400"></i> Jucesp
-            </button>
+            <div class="relative dropdown">
+                <button id="btn-jucesp" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-magnifying-glass-chart text-cyan-400"></i> Jucesp <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                </button>
+                <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
+                    <button onclick="mudarModulo('jucesp')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
+                        <i class="fa-solid fa-passport text-cyan-600"></i> Radar de Empresas
+                    </button>
+                </div>
+            </div>
 
-            <button onclick="mudarModulo('orcamentos')" id="btn-orcamentos" class="px-4 py-2 rounded-lg font-medium text-sm text-slate-300 hover:text-white flex items-center gap-2 transition">
+            <button onclick="mudarModulo('orcamentos')" id="btn-orcamentos" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-file-invoice-dollar text-purple-400"></i> Orçamentos
             </button>
         </nav>
     </header>
 
     <div class="bg-white border-b shadow-sm p-4 px-8 flex justify-between items-center no-print">
-        <h2 id="titulo-modulo" class="text-lg font-bold text-slate-800">Funil de Captação (Leads)</h2>
+        <h2 id="titulo-modulo" class="text-sm font-bold text-slate-800">Funil de Captação (Leads)</h2>
         <div id="botoes-acao">
-            <button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded shadow text-sm transition flex items-center gap-2">
+            <button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-1.5 px-4 rounded shadow text-xs transition flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i> Novo Lead
             </button>
         </div>
@@ -82,19 +107,19 @@
         <section id="mod-kanban" class="modulo-content">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="bg-slate-200/60 p-4 rounded-xl border border-slate-300">
-                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-blue-500 pb-2">Novo <span id="count-novo" class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">0</span></h3>
+                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-blue-500 pb-2 text-xs uppercase tracking-wider">Novo <span id="count-novo" class="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span></h3>
                     <div id="col-novo" class="space-y-3 min-h-[400px]"></div>
                 </div>
                 <div class="bg-slate-200/60 p-4 rounded-xl border border-slate-300">
-                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-yellow-500 pb-2">Contato <span id="count-contato" class="bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full">0</span></h3>
+                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-yellow-500 pb-2 text-xs uppercase tracking-wider">Contato <span id="count-contato" class="bg-yellow-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span></h3>
                     <div id="col-contato" class="space-y-3 min-h-[400px]"></div>
                 </div>
                 <div class="bg-slate-200/60 p-4 rounded-xl border border-slate-300">
-                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-orange-500 pb-2">Proposta <span id="count-proposta" class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">0</span></h3>
+                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-orange-500 pb-2 text-xs uppercase tracking-wider">Proposta <span id="count-proposta" class="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span></h3>
                     <div id="col-proposta" class="space-y-3 min-h-[400px]"></div>
                 </div>
                 <div class="bg-slate-200/60 p-4 rounded-xl border border-slate-300">
-                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-green-500 pb-2">Fechado <span id="count-ganho" class="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">0</span></h3>
+                    <h3 class="font-bold text-slate-700 mb-3 flex justify-between items-center border-b-2 border-green-500 pb-2 text-xs uppercase tracking-wider">Fechado <span id="count-ganho" class="bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full">0</span></h3>
                     <div id="col-ganho" class="space-y-3 min-h-[400px]"></div>
                 </div>
             </div>
@@ -103,46 +128,46 @@
         <section id="mod-clientes" class="modulo-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
-                    <h3 class="font-bold text-base mb-4 text-slate-800 border-b pb-2">Cadastrar Novo Cliente</h3>
+                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Homologar Novo Cliente</h3>
                     <form onsubmit="salvarNovoCliente(event)" id="formCliente" class="space-y-3">
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Tipo de Documento</label>
-                            <select id="c-tipo-doc" onchange="ajustarTipoDocumento()" class="w-full border p-2 rounded text-sm bg-gray-50 outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Tipo de Inscrição</label>
+                            <select id="c-tipo-doc" onchange="ajustarTipoDocumento()" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none">
                                 <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
                                 <option value="CPF">Pessoa Física (CPF)</option>
                             </select>
                         </div>
                         <div>
-                            <label id="label-doc" class="block text-xs font-bold mb-1 text-slate-600">CNPJ (Apenas números)</label>
+                            <label id="label-doc" class="block text-[11px] font-bold mb-1 text-slate-600">CNPJ (Apenas números)</label>
                             <div class="flex gap-2">
-                                <input type="text" id="c-documento" placeholder="Ex: 00000000000100" required class="flex-1 border p-2 rounded text-sm outline-none focus:border-blue-500">
-                                <button type="button" id="btn-consulta-cnpj" onclick="consultarCNPJReal()" class="bg-blue-900 text-white px-3 rounded hover:bg-blue-800"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <input type="text" id="c-documento" placeholder="Ex: 00000000000100" required class="flex-1 border p-2 rounded text-xs outline-none focus:border-blue-500">
+                                <button type="button" id="btn-consulta-cnpj" onclick="consultarCNPJReal()" class="bg-blue-900 text-white px-3 rounded hover:bg-blue-800 text-xs"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
                         <div>
-                            <label id="label-nome" class="block text-xs font-bold mb-1 text-slate-600">Razão Social / Nome Comercial</label>
-                            <input type="text" id="c-nome" required class="w-full border p-2 rounded text-sm outline-none">
+                            <label id="label-nome" class="block text-[11px] font-bold mb-1 text-slate-600">Razão Social / Nome Comercial</label>
+                            <input type="text" id="c-nome" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">WhatsApp / Telefone</label>
-                            <input type="tel" id="c-tel" required class="w-full border p-2 rounded text-sm outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">WhatsApp / Telefone</label>
+                            <input type="tel" id="c-tel" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">E-mail de Contato</label>
-                            <input type="email" id="c-email" required class="w-full border p-2 rounded text-sm outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">E-mail de Contato</label>
+                            <input type="email" id="c-email" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Endereço Completo</label>
-                            <input type="text" id="c-endereco" class="w-full border p-2 rounded text-sm bg-gray-50 outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Endereço de Entrega/Instalação</label>
+                            <input type="text" id="c-endereco" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none">
                         </div>
-                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded font-bold text-sm hover:bg-green-700 transition">Homologar Cliente</button>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded font-bold text-xs hover:bg-green-700 transition">Salvar Cadastro</button>
                     </form>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 overflow-x-auto">
-                    <h3 class="font-bold text-lg mb-4 text-slate-800">Clientes Ativos</h3>
-                    <table class="w-full text-left border-collapse text-sm">
+                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Base de Parceiros Ativos</h3>
+                    <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-100 text-slate-700 font-bold border-b"><th class="p-3">Nome / Razão Social</th><th class="p-3">Documento</th><th class="p-3">Contato</th><th class="p-3">Ações</th></tr>
+                            <tr class="bg-slate-100 text-slate-700 font-bold border-b"><th class="p-3">Nome / Empresa</th><th class="p-3">Identificação</th><th class="p-3">Contato</th><th class="p-3">Ações</th></tr>
                         </thead>
                         <tbody id="tabela-clientes-corpo"></tbody>
                     </table>
@@ -153,28 +178,28 @@
         <section id="mod-estoque" class="modulo-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1">
-                    <h3 class="font-bold text-base mb-4 text-slate-800 border-b pb-2">Inserir Material no Catálogo</h3>
+                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Novo Equipamento</h3>
                     <form onsubmit="salvarNovoProduto(event)" id="formEstoque" class="space-y-3">
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Código do Produto (SKU)</label>
-                            <input type="text" id="e-id" placeholder="Ex: CAM-IP-01" required class="w-full border p-2 rounded text-sm outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Código de Fábrica (SKU)</label>
+                            <input type="text" id="e-id" placeholder="Ex: CAM-IP-01" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Descrição / Equipamento</label>
-                            <input type="text" id="e-nome" placeholder="Ex: Câmera Castseg Dome 2MP" required class="w-full border p-2 rounded text-sm outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Descrição Técnica</label>
+                            <input type="text" id="e-nome" placeholder="Ex: Câmera Castseg Dome 2MP" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Preço Distribuidora (R$)</label>
-                            <input type="number" step="0.01" id="e-preco" placeholder="0.00" required class="w-full border p-2 rounded text-sm outline-none">
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Tabela Distribuição (R$)</label>
+                            <input type="number" step="0.01" id="e-preco" placeholder="0.00" required class="w-full border p-2 rounded text-xs outline-none">
                         </div>
-                        <button type="submit" class="w-full bg-blue-900 text-white py-2 rounded font-bold text-sm hover:bg-blue-800 transition">Salvar no Catálogo</button>
+                        <button type="submit" class="w-full bg-blue-900 text-white py-2 rounded font-bold text-xs hover:bg-blue-800 transition">Adicionar ao Catálogo</button>
                     </form>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 overflow-x-auto">
-                    <h3 class="font-bold text-lg mb-4 text-slate-800">Materiais Cadastrados</h3>
-                    <table class="w-full text-left text-sm">
+                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Equipamentos Disponíveis</h3>
+                    <table class="w-full text-left text-xs">
                         <thead>
-                            <tr class="bg-slate-100 text-slate-700 font-bold border-b"><th class="p-3">Código</th><th class="p-3">Equipamento</th><th class="p-3">Preço Atacado</th><th class="p-3">Ação</th></tr>
+                            <tr class="bg-slate-100 text-slate-700 font-bold border-b"><th class="p-3">Código</th><th class="p-3">Descrição do Material</th><th class="p-3">Preço Unitário</th><th class="p-3">Ação</th></tr>
                         </thead>
                         <tbody id="tabela-estoque-corpo"></tbody>
                     </table>
@@ -185,22 +210,22 @@
         <section id="mod-orcamentos" class="modulo-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1 no-print">
-                    <h3 class="font-bold text-base mb-4 text-slate-800 border-b pb-2">Gerar Proposta</h3>
+                    <h3 class="font-bold text-sm mb-4 text-slate-800 border-b pb-2 uppercase tracking-wider">Montar Proposta</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Selecionar Cliente</label>
-                            <select id="orc-cliente-select" class="w-full border p-2 rounded text-sm bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"></select>
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Selecionar Destinatário</label>
+                            <select id="orc-cliente-select" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"></select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1 text-slate-600">Adicionar do Estoque</label>
-                            <select id="orc-produto-select" onchange="adicionarProdutoAoOrcamento()" class="w-full border p-2 rounded text-sm bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"><option value="">Escolha um produto...</option></select>
+                            <label class="block text-[11px] font-bold mb-1 text-slate-600">Adicionar Componente</label>
+                            <select id="orc-produto-select" onchange="adicionarProdutoAoOrcamento()" class="w-full border p-2 rounded text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"><option value="">Escolha um produto...</option></select>
                         </div>
                     </div>
                     <div class="mt-6 space-y-2">
-                        <button onclick="window.print()" class="w-full bg-slate-900 text-white p-2.5 rounded font-bold text-sm hover:bg-slate-800 transition flex items-center justify-center gap-2">
+                        <button onclick="window.print()" class="w-full bg-slate-900 text-white p-2.5 rounded font-bold text-xs hover:bg-slate-800 transition flex items-center justify-center gap-2">
                             <i class="fa-solid fa-file-pdf"></i> Imprimir / Salvar PDF
                         </button>
-                        <button onclick="enviarOrcamentoEmail()" class="w-full bg-blue-600 text-white p-2.5 rounded font-bold text-sm hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                        <button onclick="enviarOrcamentoEmail()" class="w-full bg-blue-600 text-white p-2.5 rounded font-bold text-xs hover:bg-blue-700 transition flex items-center justify-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i> Enviar por E-mail
                         </button>
                     </div>
@@ -208,40 +233,44 @@
 
                 <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg border border-gray-300" id="area-impressao-orcamento">
                     <div class="flex justify-between items-center border-b-2 border-slate-900 pb-4 mb-6">
-                        <div>
-                            <h2 class="text-2xl font-black text-blue-900 tracking-tight"><i class="fa-solid fa-shield-halved text-orange-500"></i> CASTSEG</h2>
-                            <p class="text-xs text-gray-500 font-semibold">Distribuidora Autorizada Santos/SP</p>
+                        <div class="bg-white p-1 rounded border flex items-center justify-center h-10 w-32">
+                            <svg viewBox="0 0 300 70" class="h-8 w-full">
+                                <text x="10" y="50" font-family="'Arial Black', Gadget, sans-serif" font-size="44" font-style="italic" font-weight="900" fill="#003366">CAST</text>
+                                <text x="145" y="50" font-family="'Arial', Helvetica, sans-serif" font-size="44" font-style="italic" font-weight="500" fill="#003366">SEG</text>
+                                <polygon points="50,52 64,22 78,52" fill="#7F8C8D" />
+                                <polygon points="55,52 64,30 73,52" fill="#FFFFFF" />
+                            </svg>
                         </div>
-                        <div class="text-right text-xs text-gray-600">
-                            <p class="font-bold text-sm text-slate-800">PROPOSTA COMERCIAL</p>
+                        <div class="text-right text-[10px] text-gray-600">
+                            <p class="font-bold text-xs text-slate-800">PROPOSTA COMERCIAL</p>
                             <p>Data: <span id="orc-data-atual">--/--/----</span></p>
                             <p>Validade: 15 dias</p>
                         </div>
                     </div>
                     <div class="mb-6 bg-slate-50 p-4 rounded border">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Destinatário / Cliente</h4>
-                        <p class="font-bold text-base text-slate-800" id="print-cliente-nome">Nenhum cliente selecionado</p>
+                        <h4 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1">Dados do Cliente</h4>
+                        <p class="font-bold text-sm text-slate-800" id="print-cliente-nome">Nenhum parceiro selecionado</p>
                         <div class="grid grid-cols-2 gap-2 text-xs text-gray-600 mt-1">
-                            <p>📞 WhatsApp: <span id="print-cliente-tel">-</span></p>
+                            <p>📞 Tel: <span id="print-cliente-tel">-</span></p>
                             <p>✉️ E-mail: <span id="print-cliente-email">-</span></p>
                         </div>
                     </div>
-                    <table class="w-full text-left text-sm mb-6">
-                        <thead><tr class="bg-slate-900 text-white font-bold uppercase text-xs"><th class="p-2">Item</th><th class="p-2 text-right">Preço</th></tr></thead>
-                        <tbody id="print-itens-corpo" class="divide-y"><tr><td class="p-2 text-gray-400 italic" colspan="2">Lista vazia.</td></tr></tbody>
+                    <table class="w-full text-left text-xs mb-6">
+                        <thead><tr class="bg-slate-900 text-white font-bold uppercase text-[10px]"><th class="p-2">Item Técnico</th><th class="p-2 text-right">Preço de Tabela</th></tr></thead>
+                        <tbody id="print-itens-corpo" class="divide-y"><tr><td class="p-2 text-gray-400 italic" colspan="2">Nenhum componente adicionado à lista técnica.</td></tr></tbody>
                     </table>
-                    <div class="text-right border-t border-slate-900 pt-4"><span class="text-slate-600 font-bold mr-4">TOTAL:</span><span class="text-xl font-black text-blue-900" id="print-total-valor">R$ 0,00</span></div>
+                    <div class="text-right border-t border-slate-900 pt-4"><span class="text-xs text-slate-600 font-bold mr-4">VALOR LÍQUIDO DA PROPOSTA:</span><span class="text-base font-black text-blue-900" id="print-total-valor">R$ 0,00</span></div>
                 </div>
             </div>
         </section>
 
         <section id="mod-agenda" class="modulo-content hidden">
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 max-w-xl">
-                <h3 class="font-bold text-lg text-slate-800 mb-2"><i class="fa-brands fa-google text-red-500 mr-2"></i>Google Calendar API</h3>
-                <p class="text-sm text-gray-500 mb-4">Gerencie as visitas técnicas e reuniões diretamente na conta comercial da distribuidora.</p>
+                <h3 class="font-bold text-sm text-slate-800 mb-2 uppercase tracking-wider"><i class="fa-brands fa-google text-red-500 mr-2"></i>Google Calendar Linkage</h3>
+                <p class="text-xs text-gray-500 mb-4">Sincronize as demonstrações de sistemas e visitas técnicas diretamente no calendário corporativo.</p>
                 <div class="space-y-2">
-                    <button onclick="authGoogle()" class="bg-red-600 text-white text-xs font-bold py-2 px-4 rounded shadow hover:bg-red-700 transition">Conectar Conta Google</button>
-                    <div id="status-google" class="text-xs text-gray-500 italic mt-2">Status: Desconectado (Certifique-se de estar acessando via GitHub Pages ou http://localhost)</div>
+                    <button onclick="authGoogle()" class="bg-red-600 text-white text-xs font-bold py-2 px-4 rounded shadow hover:bg-red-700 transition">Sincronizar Conta Google</button>
+                    <div id="status-google" class="text-[11px] text-gray-500 italic mt-2">Status: Pronto para escuta (Verifique o redirecionamento seguro da URL do GitHub Pages).</div>
                 </div>
             </div>
         </section>
@@ -249,10 +278,10 @@
         <section id="mod-jucesp" class="modulo-content hidden">
             <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm max-w-xl flex flex-col justify-between">
                 <div>
-                    <h3 class="font-bold text-lg text-orange-400 mb-2"><i class="fa-solid fa-magnifying-glass-chart mr-2"></i>Radar JUCESP</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">Monitore aberturas de novas empresas e condomínios na Baixada Santista de forma ativa direto na plataforma oficial.</p>
+                    <h3 class="font-bold text-sm text-orange-400 mb-2 uppercase tracking-wider"><i class="fa-solid fa-magnifying-glass-chart mr-2"></i>Mapeamento Técnico de Mercado (Jucesp)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">Monitore preventivamente a constituição de novos condomínios comerciais e residenciais na Baixada Santista para oferta de infraestrutura de CFTV e controle de acesso.</p>
                 </div>
-                <a href="https://www.jucesponline.sp.gov.br/" target="_blank" class="block w-full bg-blue-600 text-center py-2.5 rounded font-bold text-sm hover:bg-blue-700 transition mt-6">Abrir JUCESP Online <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+                <a href="https://www.jucesponline.sp.gov.br/" target="_blank" class="block w-full bg-blue-600 text-center py-2 rounded font-bold text-xs hover:bg-blue-700 transition mt-6">Acessar Painel Oficial JUCESP <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i></a>
             </div>
         </section>
 
@@ -260,16 +289,16 @@
 
     <div id="modalLead" class="fixed inset-0 bg-slate-900/60 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
-            <h3 class="text-lg font-bold mb-4 text-slate-800">Cadastrar Lead de Captação</h3>
+            <h3 class="text-sm font-bold mb-4 text-slate-800 uppercase tracking-wider">Nova Entrada no Funil</h3>
             <form onsubmit="salvarNovoLead(event)" id="formLead">
                 <div class="space-y-3">
-                    <div><label class="block text-xs font-bold mb-1">Empresa / Nome</label><input type="text" id="l-nome" required class="w-full border p-2 rounded text-sm outline-none"></div>
-                    <div><label class="block text-xs font-bold mb-1">WhatsApp</label><input type="tel" id="l-tel" required class="w-full border p-2 rounded text-sm outline-none"></div>
-                    <div><label class="block text-xs font-bold mb-1">E-mail</label><input type="email" id="l-email" required class="w-full border p-2 rounded text-sm outline-none"></div>
+                    <div><label class="block text-[11px] font-bold mb-1">Empresa / Prospecção</label><input type="text" id="l-nome" required class="w-full border p-2 rounded text-xs outline-none"></div>
+                    <div><label class="block text-[11px] font-bold mb-1">WhatsApp</label><input type="tel" id="l-tel" required class="w-full border p-2 rounded text-xs outline-none"></div>
+                    <div><label class="block text-[11px] font-bold mb-1">E-mail</label><input type="email" id="l-email" required class="w-full border p-2 rounded text-xs outline-none"></div>
                 </div>
                 <div class="flex justify-end gap-2 mt-6">
-                    <button type="button" onclick="toggleModalLead(false)" class="bg-gray-300 px-4 py-2 rounded text-sm font-semibold">Cancelar</button>
-                    <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded text-sm font-semibold">Salvar Funil</button>
+                    <button type="button" onclick="toggleModalLead(false)" class="bg-gray-300 px-4 py-2 rounded text-xs font-semibold">Descartar</button>
+                    <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded text-xs font-semibold">Salvar</button>
                 </div>
             </form>
         </div>
@@ -285,7 +314,6 @@
         let itensOrcamentoCorrente = [];
         let tokenClient;
 
-        // AJUSTAR INTERFACE SE FOR CPF OU CNPJ
         function ajustarTipoDocumento() {
             const tipo = document.getElementById('c-tipo-doc').value;
             const labelDoc = document.getElementById('label-doc');
@@ -306,7 +334,6 @@
             }
         }
 
-        // CONSULTA DE CNPJ VIA API (RECEITA WS)
         function consultarCNPJReal() {
             const cnpj = document.getElementById('c-documento').value.replace(/\D/g, '');
             if (cnpj.length !== 14) {
@@ -331,7 +358,6 @@
             document.getElementById('c-endereco').value = `${data.logradouro}, ${data.numero} - ${data.municipio}/${data.uf}`;
         }
 
-        // GOOGLE CALENDAR IDENTITY SETUP
         function initGoogleAuth() {
             if(window.location.protocol === 'file:') return;
             tokenClient = google.accounts.oauth2.initTokenClient({
@@ -348,14 +374,13 @@
 
         function authGoogle() {
             if(window.location.protocol === 'file:') {
-                alert("Erro de Protocolo: O Google não permite login rodando direto de arquivos locais. Ative o GitHub Pages ou abra usando o Live Server (http://localhost) para funcionar.");
+                alert("Erro de Protocolo: O Google rejeita autenticação local. Utilize o endereço público do seu repositório GitHub Pages para habilitar o login.");
                 return;
             }
             if (!tokenClient) initGoogleAuth();
             tokenClient.requestAccessToken({prompt: 'consent'});
         }
 
-        // GESTÃO DO ESTOQUE
         function salvarNovoProduto(event) {
             event.preventDefault();
             const prod = {
@@ -385,7 +410,6 @@
             document.getElementById('tabela-estoque-corpo').innerHTML = html;
         }
 
-        // CADASTRO DE CLIENTES
         function salvarNovoCliente(event) {
             event.preventDefault();
             const cliente = {
@@ -419,7 +443,6 @@
             document.getElementById('tabela-clientes-corpo').innerHTML = html || '<tr><td colspan="4" class="p-4 text-center text-gray-400">Nenhum cliente cadastrado.</td></tr>';
         }
 
-        // PROSPECT LEADS (KANBAN)
         function toggleModalLead(show) { document.getElementById('modalLead').classList.toggle('hidden', !show); if(!show) document.getElementById('formLead').reset(); }
         function salvarNovoLead(event) { event.preventDefault(); const lead = { id: Date.now(), nome: document.getElementById('l-nome').value, tel: document.getElementById('l-tel').value, email: document.getElementById('l-email').value, status: 'novo' }; leads.push(lead); atualizarLeads(); toggleModalLead(false); }
         function moverStatus(id, novoStatus) { leads = leads.map(l => { if(l.id === id) l.status = novoStatus; return l; }); atualizarLeads(); }
@@ -442,19 +465,18 @@
             const counts = { novo: 0, contato: 0, proposta: 0, ganho: 0 };
             leads.forEach(l => {
                 counts[l.status]++;
-                cols[l.status] += `<div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200"><h4 class="font-bold text-sm text-slate-800">${l.nome}</h4><p class="text-[11px] text-gray-500">✉️ ${l.email}</p><p class="text-[11px] text-gray-500 mb-3">📞 ${l.tel}</p><div class="flex flex-col gap-1.5 border-t pt-2"><select onchange="moverStatus(${l.id}, this.value)" class="text-xs border p-1 rounded bg-gray-50"><option value="novo" ${l.status==='novo'?'selected':''}>Mover: Novo</option><option value="contato" ${l.status==='contato'?'selected':''}>Mover: Contato</option><option value="proposta" ${l.status==='proposta'?'selected':''}>Mover: Proposta</option><option value="ganho" ${l.status==='ganho'?'selected':''}>Mover: Fechado</option></select>${l.status==='ganho'?`<button onclick="promoverACliente(${l.id})" class="bg-green-600 text-white font-bold py-1 rounded text-[10px]">Promover a Cliente</button>`:''}<button onclick="excluirLead(${l.id})" class="text-left text-[10px] text-red-400 hover:underline">Remover</button></div></div>`;
+                cols[l.status] += `<div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200"><h4 class="font-bold text-xs text-slate-800">${l.nome}</h4><p class="text-[10px] text-gray-500">✉️ ${l.email}</p><p class="text-[10px] text-gray-500 mb-3">📞 ${l.tel}</p><div class="flex flex-col gap-1.5 border-t pt-2"><select onchange="moverStatus(${l.id}, this.value)" class="text-xs border p-1 rounded bg-gray-50"><option value="novo" ${l.status==='novo'?'selected':''}>Mover: Novo</option><option value="contato" ${l.status==='contato'?'selected':''}>Mover: Contato</option><option value="proposta" ${l.status==='proposta'?'selected':''}>Mover: Proposta</option><option value="ganho" ${l.status==='ganho'?'selected':''}>Mover: Fechado</option></select>${l.status==='ganho'?`<button onclick="promoverACliente(${l.id})" class="bg-green-600 text-white font-bold py-1 rounded text-[10px]">Promover a Cliente</button>`:''}<button onclick="excluirLead(${l.id})" class="text-left text-[10px] text-red-400 hover:underline">Remover</button></div></div>`;
             });
             for(let k in cols) { document.getElementById(`col-${k}`).innerHTML = cols[k] || '<p class="text-xs text-gray-400 italic text-center py-4">Vazio</p>'; document.getElementById(`count-${k}`).innerText = counts[k]; }
         }
 
-        // SISTEMA DE MÓDULO DE ORÇAMENTOS
         function atualizarSelectsOrcamento() {
             let clientOps = '<option value="">Escolha o cliente...</option>';
-            clientes.forEach((c, idx) => { clientOps += `<option value="${idx}">${c.nome}</option>`; });
+            clientes.forEach((c, idx) => { clientOps += `<option value="${idx}">${c.nome}</option>'; });
             document.getElementById('orc-cliente-select').innerHTML = clientOps;
 
             let prodOps = '<option value="">Adicionar item técnico...</option>';
-            estoque.forEach((p, idx) => { prodOps += `<option value="${idx}">${p.nome} - R$ ${p.preco.toFixed(2)}</option>`; });
+            estoque.forEach((p, idx) => { prodOps += `<option value="${idx}">${p.nome} - R$ ${p.preco.toFixed(2)}</option>'; });
             document.getElementById('orc-produto-select').innerHTML = prodOps;
         }
 
@@ -489,24 +511,16 @@
         function enviarOrcamentoEmail() {
             const c = clientes[document.getElementById('orc-cliente-select').value];
             if(!c) return alert("Por favor, selecione um cliente primeiro para resgatar o e-mail.");
-            let corpo = `Olá, ${c.nome}.\n\nSegue em anexo a sua proposta técnica da Castseg Distribuidora Santos:\n\n`;
+            let corpo = `Olá, ${c.nome}.\n\nSegue a sua proposta técnica da Castseg Distribuidora Santos:\n\n`;
             itensOrcamentoCorrente.forEach(i => corpo += `- ${i.nome}: R$ ${i.preco.toFixed(2)}\n`);
-            corpo += `\nTotal da Proposta: ${document.getElementById('print-total-valor').innerText}\n\nFicamos à total disposição para fechar o pedido.\n\nAtenciosamente,\nEquipe Castseg Santos`;
+            corpo += `\nTotal da Proposta: ${document.getElementById('print-total-valor').innerText}\n\nFicamos à disposição para fechar o pedido.\n\nAtenciosamente,\nEquipe Castseg Santos`;
             window.location.href = `mailto:${c.email}?subject=Proposta%20Comercial%20-%20Castseg%20Santos&body=${encodeURIComponent(corpo)}`;
         }
 
-        // CHANGER DINÂMICO DE INTERFACE
         function mudarModulo(modulo) {
             document.querySelectorAll('.modulo-content').forEach(el => el.classList.add('hidden'));
-            
-            // Reset dos botões normais do menu
-            document.querySelectorAll('header nav flex button').forEach(btn => {
-                btn.className = "px-4 py-2 rounded-lg font-medium text-sm text-slate-300 hover:text-white flex items-center gap-2 transition";
-            });
-            
             document.getElementById(`mod-${modulo}`).classList.remove('hidden');
             
-            // Set Titulo do Modulo Dinamicamente
             const titulos = {
                 kanban: "Funil de Captação (Leads)",
                 clientes: "Cadastro e Consulta de Clientes (CPF/CNPJ)",
@@ -517,10 +531,9 @@
             };
             document.getElementById('titulo-modulo').innerText = titulos[modulo];
             
-            // Ajustar botões secundários baseados no módulo ativo
             const containerBotoes = document.getElementById('botoes-acao');
             if(modulo === 'kanban') {
-                containerBotoes.innerHTML = `<button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded shadow text-sm transition flex items-center gap-2"><i class="fa-solid fa-plus"></i> Novo Lead</button>`;
+                containerBotoes.innerHTML = `<button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-1.5 px-4 rounded shadow text-xs transition flex items-center gap-2"><i class="fa-solid fa-plus"></i> Novo Lead</button>`;
             } else {
                 containerBotoes.innerHTML = `<span class="text-xs text-gray-400 font-medium italic">Castseg Workspace Ativo</span>`;
             }
