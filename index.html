@@ -362,7 +362,7 @@
         }
 
         function removerProduto(id) {
-            estoque = estoque.filter(p => p.id !== id);
+            estoque = !estoque ? [] : estoque.filter(p => p.id !== id);
             localStorage.setItem('cs_stock', JSON.stringify(estoque));
             renderEstoque();
             atualizarSelectsOrcamento();
