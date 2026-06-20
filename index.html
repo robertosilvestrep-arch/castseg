@@ -31,7 +31,7 @@
                     <text x="10" y="50" font-family="'Arial Black', Gadget, sans-serif" font-size="44" font-style="italic" font-weight="900" fill="#003366">CAST</text>
                     <text x="145" y="50" font-family="'Arial', Helvetica, sans-serif" font-size="44" font-style="italic" font-weight="500" fill="#003366">SEG</text>
                     <polygon points="50,52 64,22 78,52" fill="#7F8C8D" />
-                    <polygon points="55,52 64,30 73,52" fill="#FFFFFF" />
+                    <polygon points="55,52 64/30 73,52" fill="#FFFFFF" />
                 </svg>
             </div>
             <div class="hidden md:block border-l border-slate-700 pl-3">
@@ -265,7 +265,7 @@
                             <tr class="bg-slate-100 text-slate-700 font-bold border-b">
                                 <th class="p-3">Compromisso / Descrição</th>
                                 <th class="p-3">Data / Hora de Início</th>
-                                <th class="p-3">Status</th>
+                                <th class="p-3">Status da Visita</th>
                             </tr>
                         </thead>
                         <tbody id="tabela-agenda-corpo">
@@ -312,6 +312,7 @@
             { id: 'CAM1', nome: 'Câmera Bullet Infra HD Castseg', preco: 89.90 },
             { id: 'DVR4', nome: 'Multi-DVR Castseg 4 Canais 1080p', preco: 249.00 }
         ];
+        let statusCustomizados = JSON.parse(localStorage.getItem('cs_agenda_status')) || {};
         let itensOrcamentoCorrente = [];
         let tokenClient;
         let accessTokenGlobal = null;
@@ -360,7 +361,6 @@
             document.getElementById('c-endereco').value = `${data.logradouro}, ${data.numero} - ${data.municipio}/${data.uf}`;
         }
 
-        // GOOGLE CALENDAR CONTROLLER E DISPARO DE DADOS
         function initGoogleAuth() {
             if(window.location.protocol === 'file:') return;
             gapi.load('client', async () => {
@@ -373,18 +373,14 @@
                 client_id: '730601820523-g6gr1bh451f7u81fqnmbtdiib6o6181a.apps.googleusercontent.com',
                 scope: 'https://www.googleapis.com/auth/calendar.events',
                 callback: async (resp) => {
-                    if (resp.error) {
-                        alert("Erro de autenticação com o Google.");
-                        return;
-                    }
+                    if (resp.error) return alert("Erro de autenticação.");
                     accessTokenGlobal = resp.access_token;
                     gapi.client.setToken({access_token: accessTokenGlobal});
                     
-                    document.getElementById('status-google').innerText = "Status: Conectado com sucesso!";
+                    document.getElementById('status-google').innerText = "Status: Conectado!";
                     document.getElementById('status-google').className = "text-xs text-green-600 font-bold";
                     document.getElementById('formAgenda').classList.remove('hidden');
                     
-                    // Dispara a busca automática dos compromissos cadastrados
                     listarCompromissosGoogle();
                 },
             });
@@ -399,7 +395,13 @@
             tokenClient.requestAccessToken({prompt: 'consent'});
         }
 
-        // BUSCA OS COMPROMISSOS REAIS DA SUA CONTA LOGADA VIA API
+        // ALTERAÇÃO DO STATUS LOCAL COM GRAVAÇÃO EM CACHE
+        function alterarStatusEventoLocal(eventId, novoStatus) {
+            statusCustomizados[eventId] = novoStatus;
+            localStorage.setItem('cs_agenda_status', JSON.stringify(statusCustomizados));
+            listarCompromissosGoogle(); // Força o re-render com as cores novas
+        }
+
         async function listarCompromissosGoogle() {
             try {
                 const response = await gapi.client.calendar.events.list({
@@ -407,7 +409,7 @@
                     'timeMin': (new Date()).toISOString(),
                     'showDeleted': false,
                     'singleEvents': true,
-                    'maxResults': 10,
+                    'maxResults': 15,
                     'orderBy': 'startTime'
                 });
 
@@ -415,35 +417,59 @@
                 let html = '';
 
                 if (!events || events.length === 0) {
-                    html = '<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">Nenhum próximo evento localizado na sua agenda.</td></tr>';
+                    html = '<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">Nenhum evento localizado.</td></tr>';
                 } else {
                     events.forEach(event => {
                         const inicio = event.start.dateTime || event.start.date;
                         const dataFormatada = new Date(inicio).toLocaleString('pt-BR');
+                        
+                        // Verifica se existe alteração de status salva no CRM para este evento
+                        let statusAtual = statusCustomizados[event.id] || event.status;
+                        
+                        // Traduz e define a cor da etiqueta baseada no status corrente
+                        let statusTraduzido = "Confirmado";
+                        let classeCor = "bg-green-100 text-green-800";
+                        
+                        if (statusAtual === 'tentative' || statusAtual === 'reagendada') {
+                            statusTraduzido = "Reagendado";
+                            classeCor = "bg-amber-100 text-amber-800";
+                            statusAtual = 'reagendada';
+                        } else if (statusAtual === 'cancelled' || statusAtual === 'cancelada') {
+                            statusTraduzido = "Cancelado";
+                            classeCor = "bg-red-100 text-red-800";
+                            statusAtual = 'cancelada';
+                        } else {
+                            statusAtual = 'confirmed';
+                        }
+
                         html += `<tr class="border-b bg-white hover:bg-slate-50">
                             <td class="p-3 font-semibold text-slate-800">${event.summary}</td>
                             <td class="p-3 font-mono text-slate-600">${dataFormatada}</td>
-                            <td class="p-3"><span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${event.status}</span></td>
+                            <td class="p-3 flex items-center gap-3">
+                                <span class="${classeCor} text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider min-w-[90px] text-center">${statusTraduzido}</span>
+                                <select onchange="alterarStatusEventoLocal('${event.id}', this.value)" class="border p-1 rounded text-xs bg-gray-50 border-gray-300 no-print outline-none focus:border-blue-500">
+                                    <option value="confirmed" ${statusAtual==='confirmed'?'selected':''}>Confirmado</option>
+                                    <option value="reagendada" ${statusAtual==='reagendada'?'selected':''}>Reagendada</option>
+                                    <option value="cancelada" ${statusAtual==='cancelada'?'selected':''}>Cancelada</option>
+                                </select>
+                            </td>
                         </tr>`;
                     });
                 }
                 document.getElementById('tabela-agenda-corpo').innerHTML = html;
             } catch (err) {
                 console.error(err);
-                document.getElementById('tabela-agenda-corpo').innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-500 italic">Erro ao sincronizar compromissos. Recarregue a página.</td></tr>';
             }
         }
 
-        // CRIA COMPROMISSO DIRETO DA INTERFACE DO SGE PARA A NUVEM DO GOOGLE
         async function criarCompromissoGoogle(event) {
             event.preventDefault();
             if (!accessTokenGlobal) return alert("Por favor, conecte sua conta Google primeiro.");
 
             const titulo = document.getElementById('ag-titulo').value;
             const dataInicio = document.getElementById('ag-inicio').value;
-            
             const dataFimObj = new Date(dataInicio);
-            dataFimObj.setHours(dataFimObj.getHours() + 1); // Define duração padrão de 1 hora
+            dataFimObj.setHours(dataFimObj.getHours() + 1);
 
             const evento = {
                 'summary': titulo,
@@ -452,16 +478,12 @@
             };
 
             try {
-                await gapi.client.calendar.events.insert({
-                    'calendarId': 'primary',
-                    'resource': evento
-                });
-                alert("Compromisso agendado com sucesso no seu Google Calendar!");
+                await gapi.client.calendar.events.insert({ 'calendarId': 'primary', 'resource': evento });
+                alert("Compromisso inserido com sucesso!");
                 document.getElementById('formAgenda').reset();
-                listarCompromissosGoogle(); // Atualiza a tabela
+                listarCompromissosGoogle();
             } catch (err) {
                 console.error(err);
-                alert("Falha ao criar evento na agenda do Google.");
             }
         }
 
