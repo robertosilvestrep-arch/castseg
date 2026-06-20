@@ -10,7 +10,10 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
+        /* Dropdown seguro via CSS Puro */
         .dropdown:hover .dropdown-menu { display: block; }
+        
+        /* Comportamento de Impressão */
         @media print {
             body * { visibility: hidden; }
             #area-impressao-orcamento, #area-impressao-orcamento * { visibility: visible; }
@@ -24,7 +27,7 @@
     <header class="bg-slate-950 text-white p-4 px-8 flex justify-between items-center shadow-md z-50 no-print">
         
         <div class="flex items-center gap-4">
-            <div class="bg-white p-2 rounded shadow flex items-center justify-center h-10 w-32 bg-no-repeat bg-center bg-contain">
+            <div class="bg-white p-2 rounded shadow flex items-center justify-center h-10 w-32">
                 <svg viewBox="0 0 300 70" class="h-8 w-full">
                     <text x="10" y="50" font-family="'Arial Black', Gadget, sans-serif" font-size="44" font-style="italic" font-weight="900" fill="#003366">CAST</text>
                     <text x="145" y="50" font-family="'Arial', Helvetica, sans-serif" font-size="44" font-style="italic" font-weight="500" fill="#003366">SEG</text>
@@ -38,14 +41,14 @@
             </div>
         </div>
 
-        <nav class="flex items-center gap-1">
-            <button onclick="mudarModulo('kanban')" id="btn-kanban" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-white bg-slate-900 flex items-center gap-1.5 transition">
+        <nav class="flex items-center gap-2">
+            <button onclick="mudarModulo('kanban')" class="px-3 py-2 rounded-lg font-medium text-xs text-white hover:bg-slate-800 flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-table-columns text-blue-400"></i> Funil de Leads
             </button>
 
             <div class="relative dropdown">
-                <button id="btn-clientes" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-user-plus text-green-400"></i> Cadastro <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-user-plus text-green-400"></i> Clientes <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
                     <button onclick="mudarModulo('clientes')" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-100 flex items-center gap-2 font-medium">
@@ -55,7 +58,7 @@
             </div>
 
             <div class="relative dropdown">
-                <button id="btn-estoque" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-boxes-stacked text-amber-400"></i> Estoque <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -66,7 +69,7 @@
             </div>
 
             <div class="relative dropdown">
-                <button id="btn-agenda" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-calendar-check text-red-400"></i> Agenda <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -77,7 +80,7 @@
             </div>
 
             <div class="relative dropdown">
-                <button id="btn-jucesp" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+                <button class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-magnifying-glass-chart text-cyan-400"></i> Jucesp <i class="fa-solid fa-chevron-down text-[8px]"></i>
                 </button>
                 <div class="dropdown-menu absolute hidden right-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 text-slate-800">
@@ -87,7 +90,7 @@
                 </div>
             </div>
 
-            <button onclick="mudarModulo('orcamentos')" id="btn-orcamentos" class="menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+            <button onclick="mudarModulo('orcamentos')" class="px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-file-invoice-dollar text-purple-400"></i> Orçamentos
             </button>
         </nav>
@@ -517,21 +520,15 @@
             window.location.href = `mailto:${c.email}?subject=Proposta%20Comercial%20-%20Castseg%20Santos&body=${encodeURIComponent(corpo)}`;
         }
 
+        // ALTERNADOR DE MÓDULOS SEGURO (Sem re-estilização via DOM móvel)
         function mudarModulo(modulo) {
+            // Oculta todas as telas
             document.querySelectorAll('.modulo-content').forEach(el => el.classList.add('hidden'));
+            
+            // Exibe apenas a tela selecionada
             document.getElementById(`mod-${modulo}`).classList.remove('hidden');
             
-            // Seleciona todos os botões que possuem a classe .menu-btn e reseta o estilo padrão deles
-            document.querySelectorAll('.menu-btn').forEach(btn => {
-                btn.className = "menu-btn px-3 py-2 rounded-lg font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition";
-            });
-            
-            // Aplica a classe de ativo apenas no botão clicado para dar feedback visual
-            const botaoAtivo = document.getElementById(`btn-${modulo}`);
-            if (botaoAtivo) {
-                botaoAtivo.className = "menu-btn px-3 py-2 rounded-lg font-medium text-xs text-white bg-slate-900 flex items-center gap-1.5 transition";
-            }
-            
+            // Altera o título do cabeçalho
             const titulos = {
                 kanban: "Funil de Captação (Leads)",
                 clientes: "Cadastro e Consulta de Clientes (CPF/CNPJ)",
@@ -542,6 +539,7 @@
             };
             document.getElementById('titulo-modulo').innerText = titulos[modulo];
             
+            // Modifica o botão de ação rápida no sub-header
             const containerBotoes = document.getElementById('botoes-acao');
             if(modulo === 'kanban') {
                 containerBotoes.innerHTML = `<button onclick="toggleModalLead(true)" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-1.5 px-4 rounded shadow text-xs transition flex items-center gap-2"><i class="fa-solid fa-plus"></i> Novo Lead</button>`;
@@ -550,6 +548,7 @@
             }
         }
 
+        // Execução ao carregar a página
         document.getElementById('orc-data-atual').innerText = new Date().toLocaleDateString('pt-BR');
         window.onload = () => { 
             renderKanban(); 
